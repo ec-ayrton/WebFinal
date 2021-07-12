@@ -1,19 +1,26 @@
 package com.ayrton.project.resources;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ayrton.project.entities.Client;
+import com.ayrton.project.services.ClientService;
 
 @RestController
 @RequestMapping(value = "/clientes")
-public class UserResource {
+public class ClientResource {
+	
+	@Autowired
+	private ClientService service;
 	
 	@GetMapping
-	public ResponseEntity<Client> findAll(){
-		Client u = new Client(1L,"ayrton","00011122233","889900112233");
-		return ResponseEntity.ok().body(u);
+	public ResponseEntity<List<Client>> findAll(){
+		List<Client> list = service.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 }
