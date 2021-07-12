@@ -17,7 +17,7 @@ public class Client implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
+	private String name;
 	private String CPF;
 	private String fone;
 	
@@ -28,7 +28,7 @@ public class Client implements Serializable{
 	public Client(Long id, String nome, String cPF, String fone) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.name = nome;
 		CPF = cPF;
 		this.fone = fone;
 	}
@@ -42,11 +42,11 @@ public class Client implements Serializable{
 	}
 
 	public String getNome() {
-		return nome;
+		return name;
 	}
 
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.name = nome;
 	}
 
 	public String getCPF() {
