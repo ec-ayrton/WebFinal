@@ -1,6 +1,7 @@
 package com.ayrton.project.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="tb_order")
 public class Order implements Serializable{
@@ -19,7 +22,10 @@ public class Order implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone ="GMT")
+	private Instant moment;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -29,13 +35,14 @@ public class Order implements Serializable{
 		super();
 	}
 
-	public Order(long id, Client client) {
+	public Order(Long id,Instant instant ,Client client) {
 		super();
 		this.id = id;
+		this.moment= instant;
 		this.client = client;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -49,6 +56,10 @@ public class Order implements Serializable{
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	public void setMoment(Instant moment) {
+		this.moment = moment;
 	}
 
 	@Override
