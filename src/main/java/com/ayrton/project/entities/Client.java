@@ -1,12 +1,15 @@
 package com.ayrton.project.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +25,10 @@ public class Client implements Serializable{
 	private String name;
 	private String CPF;
 	private String fone;
+	
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
+	
 	
 	public Client() {
 		super();
@@ -66,7 +73,9 @@ public class Client implements Serializable{
 	public void setFone(String fone) {
 		this.fone = fone;
 	}
-
+	public List<Order> getOrders() {
+		return orders;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(CPF, id);
@@ -83,6 +92,8 @@ public class Client implements Serializable{
 		Client other = (Client) obj;
 		return Objects.equals(CPF, other.CPF) && Objects.equals(id, other.id);
 	}
+
+	
 	
 	
 }
