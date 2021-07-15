@@ -1,13 +1,18 @@
 package com.ayrton.project.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_product")
@@ -21,6 +26,9 @@ public class Product implements Serializable{
 	private String name;
 	private Double price;
 	private String description;
+	
+	@OneToMany(mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();
 	
 	public Product() {
 		super();
@@ -56,6 +64,15 @@ public class Product implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	@JsonIgnore
+	public Set<Order>getOrders(){
+		Set<Order> aux = new HashSet<>();
+		for(OrderItem x : items) {
+			aux.add(x.getOrder());
+		}
+		return aux;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(description, id, name, price);
