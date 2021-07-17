@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 
 @Entity
 @Table(name="tb_client")
@@ -24,8 +26,14 @@ public class Client implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotNull
+	@Column(nullable = false, length = 30)
 	private String name;
+	@NotNull
+	@Column(nullable = false, length = 12, unique=true,updatable = false)
 	private String CPF;
+	@NotNull
+	@Column(nullable = false, length = 10,updatable = false)
 	private String fone;
 	
 	@JsonIgnore
@@ -95,6 +103,9 @@ public class Client implements Serializable{
 		Client other = (Client) obj;
 		return Objects.equals(CPF, other.CPF) && Objects.equals(id, other.id);
 	}
+
+
+	
 
 	
 	
