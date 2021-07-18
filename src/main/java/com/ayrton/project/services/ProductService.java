@@ -26,8 +26,12 @@ public class ProductService {
 	}
 	
 	public Product insert(Product p) {
+		List<Product> products= repository.findAll();
+		for(Product product : products) {
+			if(product.equals(p)) {
+				return null;
+			}
+		}
 		return repository.save(p);
 	}
-	
-	
 }
