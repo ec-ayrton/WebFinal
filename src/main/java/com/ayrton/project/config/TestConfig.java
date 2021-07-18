@@ -37,10 +37,10 @@ public class TestConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		Client c1 = new Client("ayrton","00011122233","8899001120");
-		Client c2 = new Client("rogerio","00000000000","8899001121");
-		Client c3 = new Client("roger","00000000001","8899001122");
-		Client c4 = new Client("marilia","00411122233","8899001123");
+		Client c1 = new Client("Ana",    "11111111111", "8899001120");
+		Client c2 = new Client("Borges", "22222222222", "8899001121");
+		Client c3 = new Client("Carlos", "33333333333", "8899001122");
+		Client c4 = new Client("Duda",   "44444444444", "8899001123");
 	
 		clientRepository.saveAll(Arrays.asList(c1,c2,c3,c4));
 		
@@ -60,15 +60,15 @@ public class TestConfig implements CommandLineRunner{
 		
 		orderRepository.saveAll(Arrays.asList(o1,o2,o3,o4,o5));
 		orderRepository.save(o1);
-		OrderItem oi1 = new OrderItem(o1, p5, 10, p5.getPrice());
-		OrderItem oi2 = new OrderItem(o2, p3, 2, p3.getPrice());
-		OrderItem oi3 = new OrderItem(o3, p1, 1, p1.getPrice());
-		OrderItem oi4 = new OrderItem(o4, p2, 1, p2.getPrice());
-		OrderItem oi5 = new OrderItem(o5, p4, 1, p4.getPrice());
-		OrderItem oi6 = new OrderItem(o1, p1, 1, p1.getPrice());
-		OrderItem oi7 = new OrderItem(o2, p1, 1, p1.getPrice());
-		OrderItem oi8 = new OrderItem(o3, p5, 1, p5.getPrice());
-		OrderItem oi9 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi1 = new OrderItem(o1, p5, 10);
+		OrderItem oi2 = new OrderItem(o2, p3, 2);
+		OrderItem oi3 = new OrderItem(o3, p1, 1);
+		OrderItem oi4 = new OrderItem(o4, p2, 1);
+		OrderItem oi5 = new OrderItem(o5, p4, 1);
+		OrderItem oi6 = new OrderItem(o1, p1, 1);
+		OrderItem oi7 = new OrderItem(o2, p1, 1);
+		OrderItem oi8 = new OrderItem(o3, p5, 1);
+		OrderItem oi9 = new OrderItem(o1, p3, 1);
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4,oi5,oi6,oi7,oi8,oi9));
 	}

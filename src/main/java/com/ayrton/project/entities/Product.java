@@ -42,9 +42,6 @@ public class Product implements Serializable{
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getName() {
 		return name;
 	}
@@ -71,10 +68,9 @@ public class Product implements Serializable{
 		}
 		return aux;
 	}
-	
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, id, name, price);
+		return Objects.hash(description, name, price);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -85,10 +81,8 @@ public class Product implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		return Objects.equals(description, other.description) && Objects.equals(id, other.id)
-				&& Objects.equals(name, other.name) && Objects.equals(price, other.price);
+		return Objects.equals(description, other.description) && Objects.equals(name, other.name)
+				&& Objects.equals(price, other.price);
 	}
-	
-	
 	
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.ayrton.project.entities.Client;
 import com.ayrton.project.repositories.ClientRepository;
-import com.ayrton.project.services.exceptions.CPFAlreadyExistsException;
 import com.ayrton.project.services.exceptions.DatabaseException;
 import com.ayrton.project.services.exceptions.ResourceNotFoundException;
 
@@ -28,11 +27,13 @@ public class ClientService {
 		return c.orElseThrow( ()-> new ResourceNotFoundException(id));
 	}
 	public Client insert(Client c) {
-		try {
+		
+		Optional<Client> clientOpt = repository.findByCPF(c.getCPF());
+		
+		if(clientOpt.isEmpty()) {
 			return repository.save(c);
-		} catch (DataIntegrityViolationException e) {
-			// TODO: handle exception
-			throw new CPFAlreadyExistsException(c.getCPF());
+		}else {
+			return null;
 		}
 	}
 	public void delete(Long id) {

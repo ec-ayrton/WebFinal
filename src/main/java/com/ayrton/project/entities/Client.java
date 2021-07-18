@@ -3,7 +3,6 @@ package com.ayrton.project.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
+import com.ayrton.project.entities.DTO.ClientResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -26,14 +26,16 @@ public class Client implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@NotNull
+
+	@NotBlank
 	@Column(nullable = false, length = 30)
 	private String name;
-	@NotNull
-	@Column(nullable = false, length = 12, unique=true,updatable = false)
+	
+	@NotBlank
+	@Column(unique = true, length = 11)
 	private String CPF;
-	@NotNull
-	@Column(nullable = false, length = 10)
+	
+	@Column(length = 10)
 	private String fone;
 	
 	@JsonIgnore
@@ -45,10 +47,10 @@ public class Client implements Serializable{
 		super();
 	}
 
-	public Client( String nome, String cPF, String fone) {
+	public Client( String name, String CPF, String fone) {
 		super();
-		this.name = nome;
-		CPF = cPF;
+		this.name = name;
+		this.CPF = CPF;
 		this.fone = fone;
 	}
 
@@ -56,24 +58,16 @@ public class Client implements Serializable{
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
+	public String getName() {
 		return name;
 	}
 
-	public void setNome(String nome) {
-		this.name = nome;
+	public void setNome(String name) {
+		this.name = name;
 	}
 
 	public String getCPF() {
 		return CPF;
-	}
-
-	public void setCPF(String cPF) {
-		CPF = cPF;
 	}
 
 	public String getFone() {
@@ -85,28 +79,16 @@ public class Client implements Serializable{
 	}
 	public List<Order> getOrders() {
 		return orders;
-	}
+	}	
+
+	
+	
 	@Override
-	public int hashCode() {
-		return Objects.hash(CPF, id);
+	public String toString() {
+		return "Client [id=" + id + ", name=" + name + ", CPF=" + CPF + ", fone=" + fone + "]";
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Client other = (Client) obj;
-		return Objects.equals(CPF, other.CPF) && Objects.equals(id, other.id);
+	public ClientResponse ToResponse() {
+		return new ClientResponse(this.id, this.name);
 	}
-
-
-	
-
-	
-	
-	
 }
