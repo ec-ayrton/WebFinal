@@ -22,7 +22,7 @@ public class Product implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	private String name;
 	private Double price;
 	private String description;
@@ -33,9 +33,8 @@ public class Product implements Serializable{
 	public Product() {
 		super();
 	}
-	public Product(Long id, String name, Double price, String description) {
+	public Product(String name, Double price, String description) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.description = description;

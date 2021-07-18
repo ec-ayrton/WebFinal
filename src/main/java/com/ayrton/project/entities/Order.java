@@ -1,7 +1,7 @@
 package com.ayrton.project.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
 @Table(name="tb_order")
 public class Order implements Serializable{
@@ -25,10 +23,9 @@ public class Order implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone ="GMT")
-	private Instant moment;
+	private LocalDate dataPedido;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -41,19 +38,14 @@ public class Order implements Serializable{
 		super();
 	}
 
-	public Order(Long id,Instant instant ,Client client) {
+	public Order(LocalDate data, Client client) {
 		super();
-		this.id = id;
-		this.moment= instant;
+		this.dataPedido= data;
 		this.client = client;
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public Client getClient() {
@@ -64,9 +56,17 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 
-	public void setMoment(Instant moment) {
-		this.moment = moment;
+	
+	
+	public LocalDate getDataPedido() {
+		return dataPedido;
 	}
+
+	public void setDataPedido(LocalDate dataPedido) {
+		this.dataPedido = dataPedido;
+	}
+
+	
 	public Set<OrderItem> getItems(){
 		return items;
 	}

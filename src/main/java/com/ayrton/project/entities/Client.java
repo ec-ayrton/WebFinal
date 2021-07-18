@@ -12,9 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 
 @Entity
 @Table(name="tb_client")
@@ -25,7 +25,7 @@ public class Client implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	@NotNull
 	@Column(nullable = false, length = 30)
 	private String name;
@@ -33,7 +33,7 @@ public class Client implements Serializable{
 	@Column(nullable = false, length = 12, unique=true,updatable = false)
 	private String CPF;
 	@NotNull
-	@Column(nullable = false, length = 10,updatable = false)
+	@Column(nullable = false, length = 10)
 	private String fone;
 	
 	@JsonIgnore
@@ -45,9 +45,8 @@ public class Client implements Serializable{
 		super();
 	}
 
-	public Client(Long id, String nome, String cPF, String fone) {
+	public Client( String nome, String cPF, String fone) {
 		super();
-		this.id = id;
 		this.name = nome;
 		CPF = cPF;
 		this.fone = fone;

@@ -35,10 +35,10 @@ public class OrderResource {
 		return ResponseEntity.ok().body(o);
 	}
 	@PostMapping
-	public ResponseEntity<Order> insert(@RequestBody Order o){
-		o = service.insert(o);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(o.getId()).toUri();
-		return ResponseEntity.created(uri).body(o);	
+	public ResponseEntity<Order> insert(@RequestBody Order order){
+		order = service.insert(order);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(order.getId()).toUri();
+		return ResponseEntity.created(uri).body(order);	
 	}
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
