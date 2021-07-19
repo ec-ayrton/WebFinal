@@ -2,8 +2,7 @@ package com.ayrton.project.resources;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.Valid;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,19 +37,23 @@ public class ClientResource {
 		return ResponseEntity.ok().body(listResponse);
 	}
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<ClientResponse> findById(@PathVariable Long id){
-		Client client = service.findById(id);
-		ClientResponse clientResponse = client.ToResponse();
-		return ResponseEntity.ok().body(clientResponse);
+	public ResponseEntity<Object> findById(@PathVariable Long id){
+		Optional<Client> clientOpt = service.findById(id);
+		if(clientOpt.isPresent()) {
+			ClientResponse clientResponse = clientOpt.get().ToResponse();
+			return ResponseEntity.ok().body(clientResponse);
+		}else{
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente nao encontrado!");
+		}
 	}
 	@PostMapping
-	public ResponseEntity<Object> insert(@RequestBody @Valid ClientForm clientForm){
+	public ResponseEntity<Object> insert(@RequestBody  ClientForm clientForm){
 		Client client = clientForm.toModel();
-		Client clientSaved = service.insert(client);
+		ClientResponse clientSaved = service.insert(client);
 		if(clientSaved == null ){
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro ao cadastrar cliente.");
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body( "O cliente "+clientSaved.getName()+" foi cadastrado com sucesso !");            	
+		return ResponseEntity.status(HttpStatus.CREATED).body( "O cliente "+clientSaved.getNome()+" foi cadastrado com sucesso !");            	
 	}
 	//
 	@DeleteMapping(value = "/{id}")

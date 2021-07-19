@@ -68,6 +68,13 @@ public class Product implements Serializable{
 		}
 		return aux;
 	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description + "]";
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(description, name, price);

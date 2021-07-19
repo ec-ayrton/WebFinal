@@ -1,6 +1,7 @@
 package com.ayrton.project.resources;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +29,14 @@ public class ProductResource {
 		return ResponseEntity.ok().body(list);
 	}
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Long id){
-		Product p = service.findById(id);
-		return ResponseEntity.ok().body(p);
+	public ResponseEntity<Object> findById(@PathVariable Long id){
+		Optional<Product> productOpt = service.findById(id);
+		if(productOpt.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto nao encontrado!");
+		}else {
+			return ResponseEntity.ok().body(productOpt.get());
+		}
 	}
-	
 	@PostMapping
 	public ResponseEntity<Object> insert(@RequestBody Product p){
 		
