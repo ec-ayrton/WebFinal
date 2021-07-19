@@ -27,6 +27,11 @@ public class ClientService {
 		Optional<Client> c = repository.findById(id);
 		return c;
 	}
+	public Optional<Client>findByCPF(String cpf){
+		Optional<Client> client = repository.findByCPF(cpf);
+		return client;
+	}
+	
 	public ClientResponse insert(Client c) {
 		
 		Optional<Client> clientOpt = repository.findByCPF(c.getCPF());

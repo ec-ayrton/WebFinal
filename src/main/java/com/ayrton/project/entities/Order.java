@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.ayrton.project.entities.DTO.OrderResponse;
+
 @Entity
 @Table(name="tb_order")
 public class Order implements Serializable{
@@ -24,7 +26,7 @@ public class Order implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	private LocalDate dataPedido;
 	
 	@ManyToOne
@@ -77,10 +79,11 @@ public class Order implements Serializable{
 		}
 		return total;
 	}
+
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(client, id);
+		return Objects.hash(client, dataPedido);
 	}
 
 	@Override
@@ -92,7 +95,17 @@ public class Order implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		return Objects.equals(client, other.client) && id == other.id;
+		return Objects.equals(client, other.client) && Objects.equals(dataPedido, other.dataPedido);
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", dataPedido=" + dataPedido + ", client=" + client + ", items=" + items + "]";
+	}
+
+	public OrderResponse toResponse() {
+		// TODO Auto-generated method stub
+		return new OrderResponse(this.getId(),this.getDataPedido(),this.getClient().ToResponse(),this.getItems());
 	}
 	
 	

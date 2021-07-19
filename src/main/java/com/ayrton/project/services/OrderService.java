@@ -1,5 +1,6 @@
 package com.ayrton.project.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.ayrton.project.entities.Client;
 import com.ayrton.project.entities.Order;
 import com.ayrton.project.repositories.OrderRepository;
 import com.ayrton.project.services.exceptions.DatabaseException;
@@ -22,10 +24,24 @@ public class OrderService {
 	public List<Order> findAll(){
 		return repository.findAll();
 	}
-	public Order findById(Long id) {
+	public Optional<Order> findById(Long id) {
 		Optional<Order> c = repository.findById(id);
-		return c.orElseThrow( ()-> new ResourceNotFoundException(id));
+		return c;
 	}
+	public Boolean findByOrder(LocalDate date, Client client) {
+		List<Order> listOrderByDate = repository.findByDataPedido(date);
+		List<Order> listsOrderByClient = repository.findByClient(client);
+		
+		for(Order ByData:listOrderByDate) {
+			for(Order byClient:listsOrderByClient) {
+				if(ByData.equals(byClient)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public Order insert(Order c) {
 		return repository.save(c);
 	}

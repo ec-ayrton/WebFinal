@@ -3,6 +3,7 @@ package com.ayrton.project.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -84,11 +85,29 @@ public class Client implements Serializable{
 	
 	
 	@Override
+	public int hashCode() {
+		return Objects.hash(CPF, fone, id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Client other = (Client) obj;
+		return Objects.equals(CPF, other.CPF) && Objects.equals(fone, other.fone) && id == other.id
+				&& Objects.equals(name, other.name);
+	}
+
+	@Override
 	public String toString() {
 		return "Client [id=" + id + ", name=" + name + ", CPF=" + CPF + ", fone=" + fone + "]";
 	}
 
 	public ClientResponse ToResponse() {
-		return new ClientResponse(this.id, this.name);
+		return new ClientResponse(this.id, this.name,this.orders);
 	}
 }

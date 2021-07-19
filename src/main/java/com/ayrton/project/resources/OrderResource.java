@@ -1,9 +1,11 @@
 package com.ayrton.project.resources;
 
-import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.ayrton.project.entities.Client;
 import com.ayrton.project.entities.Order;
+import com.ayrton.project.entities.DTO.OrderForm;
+import com.ayrton.project.entities.DTO.OrderResponse;
+import com.ayrton.project.services.ClientService;
 import com.ayrton.project.services.OrderService;
 
 @RestController
@@ -24,21 +29,46 @@ public class OrderResource {
 	@Autowired
 	private OrderService service;
 	
+	@Autowired
+	private ClientService clientService;
+	
 	@GetMapping
-	public ResponseEntity<List<Order>> findAll(){
+	public ResponseEntity<List<OrderResponse>> findAll(){
 		List<Order> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+		List<OrderResponse>listResponse = new ArrayList<>();
+		for(Order response: list) {
+			listResponse.add(response.toResponse());
+		}
+		return ResponseEntity.ok().body(listResponse);
 	}
+	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Order> findById(@PathVariable Long id){
-		Order o = service.findById(id);
-		return ResponseEntity.ok().body(o);
+	public ResponseEntity<Object> findById(@PathVariable Long id){
+		Optional<Order> orderOpt = service.findById(id);
+		if(orderOpt.isPresent()) {
+			OrderResponse orderResponse = orderOpt.get().toResponse();
+			//OrderResponse orderResponse = new OrderResponse(orderOpt.get().getId(),orderOpt.get().getDataPedido(),orderOpt.get().getClient().ToResponse(),orderOpt.get().getItems());
+			return ResponseEntity.ok().body(orderResponse);
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ordem de pedido  nao encontrada!");
+		}
 	}
+	
 	@PostMapping
-	public ResponseEntity<Order> insert(@RequestBody Order order){
-		order = service.insert(order);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(order.getId()).toUri();
-		return ResponseEntity.created(uri).body(order);	
+	public ResponseEntity<Object> insert(@RequestBody OrderForm orderForm){
+			
+		Optional<Client> clientOpt = clientService.findByCPF(orderForm.getCPF());
+		if(clientOpt.isEmpty()) {
+			return ResponseEntity.badRequest().body("Cliente não encontrado.");
+		}
+		if(service.findByOrder(orderForm.getDataPedido(), clientOpt.get())) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro ao cadastrar Ordem de pedido.");
+		}else {
+			Order order = orderForm.toModel(clientOpt.get());
+			order = service.insert(order);
+			order.toString();
+			return ResponseEntity.status(HttpStatus.CREATED).body("Ordem de pedido cadastrada.");	
+		}		
 	}
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){

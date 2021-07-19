@@ -52,11 +52,11 @@ public class TestConfig implements CommandLineRunner{
 		
 		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
 		
-		Order o1 = new Order(LocalDate.parse("2009-02-10"),c1);
-		Order o2 = new Order(LocalDate.parse("2009-02-10"),c1);
-		Order o3 = new Order(LocalDate.parse("2009-02-10"),c2);
-		Order o4 = new Order(LocalDate.parse("2009-02-10"),c3);
-		Order o5 = new Order(LocalDate.parse("2009-02-10"),c3);
+		Order o1 = new Order(LocalDate.parse("2009-02-11"),c1);
+		Order o2 = new Order(LocalDate.parse("2009-02-12"),c1);
+		Order o3 = new Order(LocalDate.parse("2009-02-13"),c2);
+		Order o4 = new Order(LocalDate.parse("2009-02-14"),c3);
+		Order o5 = new Order(LocalDate.parse("2009-02-15"),c3);
 		
 		orderRepository.saveAll(Arrays.asList(o1,o2,o3,o4,o5));
 		orderRepository.save(o1);
