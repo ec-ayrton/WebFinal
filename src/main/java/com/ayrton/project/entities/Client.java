@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.ayrton.project.entities.DTO.ClientResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,13 +32,16 @@ public class Client implements Serializable{
 	private long id;
 
 	@NotBlank
-	@Column(nullable = false, length = 30)
+	@Size(max = 50)
+	@Column(nullable = false)
 	private String name;
 	
 	@NotBlank
+	@CPF
 	@Column(unique = true, length = 11)
 	private String CPF;
 	
+	@NotBlank
 	@Column(length = 10)
 	public String fone;
 	

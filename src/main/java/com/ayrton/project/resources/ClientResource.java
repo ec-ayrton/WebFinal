@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,9 +50,18 @@ public class ClientResource {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente nao encontrado!");
 		}
 	}
+	@GetMapping(value = "/detalhes/{id}")
+	public ResponseEntity<Object> findClientDetailsById(@PathVariable Long id){
+		Optional<Client> clientOpt = service.findById(id);
+		if(clientOpt.isPresent()) {
+			return ResponseEntity.ok().body(clientOpt.get());
+		}else{
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente nao encontrado!");
+		}
+	}
 	@Transactional
 	@PostMapping
-	public ResponseEntity<Object> insert(@RequestBody  ClientForm clientForm){
+	public ResponseEntity<Object> insert(@RequestBody  @Valid ClientForm clientForm){
 		Client client = clientForm.toModel();
 		ClientResponse clientSaved = service.insert(client);
 		if(clientSaved == null ){

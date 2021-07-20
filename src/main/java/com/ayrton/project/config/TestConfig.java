@@ -37,10 +37,10 @@
 //	@Override
 //	public void run(String... args) throws Exception {
 //		// TODO Auto-generated method stub
-//		Client c1 = new Client("Ana",    "11111111111", "8899001120");
-//		Client c2 = new Client("Borges", "22222222222", "8899001121");
-//		Client c3 = new Client("Carlos", "33333333333", "8899001122");
-//		Client c4 = new Client("Duda",   "44444444444", "8899001123");
+//		Client c1 = new Client("Ana",    "01759767328", "8899001120");
+//		Client c2 = new Client("Borges", "51418818305", "8899001121");
+//		Client c3 = new Client("Carlos", "35262405312", "8899001122");
+//		Client c4 = new Client("Duda",   "74412219356", "8899001123");
 //	
 //		clientRepository.saveAll(Arrays.asList(c1,c2,c3,c4));
 //		

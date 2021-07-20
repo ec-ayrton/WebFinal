@@ -36,10 +36,7 @@ public class OrderForm {
 		return this.cpf;
 	}
 	
-	@Override
-	public String toString() {
-		return "OrderForm [dataPedido=" + dataPedido + ", CPFClient=" + cpf + "]";
-	}
+	
 
 	public Order toModel(Client client) {
 		

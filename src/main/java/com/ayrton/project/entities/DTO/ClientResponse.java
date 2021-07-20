@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.OneToMany;
 
-import com.ayrton.project.entities.Client;
 import com.ayrton.project.entities.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,11 +21,6 @@ public class ClientResponse {
 		this.id = id;
 		this.nome = nome;
 		this.orders=orders2;
-	}
-
-	public ClientResponse(Client clientSaved) {
-		this.id=clientSaved.getId();
-		this.nome=clientSaved.getName();
 	}
 
 	public long getId() {

@@ -62,7 +62,7 @@ public class OrderItemControllerTest {
 	@DisplayName("Cadastrar Item de Pedido com sucesso.")
 	void addOrderItemSucessTest() throws JsonProcessingException, Exception {
 		//
-		ClientForm clientNovo = new ClientForm("Ana","11111111111", "8899001120");
+		ClientForm clientNovo = new ClientForm("Ana","01759767328", "8899001120");
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo))).andExpect(MockMvcResultMatchers.status().isCreated());                                                                                                          
 		//
 		
@@ -77,7 +77,7 @@ public class OrderItemControllerTest {
 		Product response = objectMapper.readValue(resultContent, Product.class);
 		
 		//
-		OrderForm orderForm = new OrderForm(LocalDate.parse("2020-03-30"), "11111111111");
+		OrderForm orderForm = new OrderForm(LocalDate.parse("2020-03-30"), clientNovo.getCPF());
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/pedidos").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(orderForm))).andExpect(MockMvcResultMatchers.status().isCreated());                                                                                                          
 		//
 		OrderItemForm itemForm = new OrderItemForm(orderForm.getDataPedido(), clientNovo.getCPF() , response.getId(), 5);
@@ -104,13 +104,13 @@ public class OrderItemControllerTest {
 		//
 		//
 		
-		ClientForm clientNovo = new ClientForm("Ana","11111111111", "8899001120");
+		ClientForm clientNovo = new ClientForm("Ana","01759767328", "8899001120");
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo))).andExpect(MockMvcResultMatchers.status().isCreated());                                                                                                          
 		
-		ClientForm clientNovo2 = new ClientForm("Borges","22222222222", "8899001120");
+		ClientForm clientNovo2 = new ClientForm("Borges","51418818305", "8899001120");
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo2))).andExpect(MockMvcResultMatchers.status().isCreated());                                                                                                          
 		
-		ClientForm clientNovo3 = new ClientForm("Carlos","33333333333", "8899001120");
+		ClientForm clientNovo3 = new ClientForm("Carlos","35262405312", "8899001120");
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo3))).andExpect(MockMvcResultMatchers.status().isCreated());                                                                                                          
 		
 		//
