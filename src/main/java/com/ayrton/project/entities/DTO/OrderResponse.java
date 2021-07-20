@@ -45,5 +45,11 @@ public class OrderResponse {
 	public Set<OrderItem> getItems() {
 		return items;
 	}
-	
+	public Double getTotal() {
+		double total = 0.0;
+		for(OrderItem x: items) {
+			total = total + x.getSubTotal();
+		}
+		return total;
+	}
 }
