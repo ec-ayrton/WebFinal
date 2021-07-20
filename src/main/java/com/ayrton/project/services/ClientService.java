@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.ayrton.project.entities.Client;
 import com.ayrton.project.entities.DTO.ClientResponse;
 import com.ayrton.project.repositories.ClientRepository;
-import com.ayrton.project.services.exceptions.DatabaseException;
-import com.ayrton.project.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ClientService {
@@ -45,16 +43,17 @@ public class ClientService {
 			return null;
 		}
 	}
-	public void delete(Long id) {
+	public Object delete(Long id) {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			// TODO: handle exception
-			throw new ResourceNotFoundException(id);
+			return 404;
 		} catch (DataIntegrityViolationException e) {
 			// TODO: handle exception
-			throw new DatabaseException(e.getMessage());
+			return 400;
 		}
+		return 200;
 	}
 	
 }

@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.ayrton.project.entities.Client;
 import com.ayrton.project.entities.DTO.ClientForm;
-import com.ayrton.project.entities.DTO.ClientResponse;
+import com.ayrton.project.entities.DTO.OrderResponse;
 import com.ayrton.project.repositories.ClientRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -85,9 +85,11 @@ public class ClientControllerTest {
 		assertTrue(clientSaved.isPresent());
 		MvcResult result = mockMvc
 				.perform(get(urlHost+"/clientes/{codigo}", clientSaved.get().getId() ).content(MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(status().isOk()).andReturn();                                                                                                         
+				.andExpect(status().isOk()).andReturn();
+		
+		
 		String resultContent = result.getResponse().getContentAsString();
-		ClientResponse response = objectMapper.readValue(resultContent, ClientResponse.class);
+		OrderResponse response = objectMapper.readValue(resultContent, OrderResponse.class);
 		
 		assertTrue(response.getId()==(clientSaved.get().getId()));
 	}
@@ -136,6 +138,5 @@ public class ClientControllerTest {
 		String resultContent = result.getResponse().getContentAsString();
 		List<Client> list = objectMapper.readValue(resultContent, new TypeReference<List<Client>>(){});
 		assertTrue(list.size()==3);
-	
 	}
 }
