@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.ayrton.project.entities.Client;
@@ -56,17 +54,4 @@ public class OrderService {
 	public Order insert(Order c) {
 		return repository.save(c);
 	}
-	public int delete(Long id) {
-		try {
-			repository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			// TODO: handle exception
-			return 404;
-		} catch (DataIntegrityViolationException e) {
-			// TODO: handle exception
-			return 400;
-		}
-		return 200;
-	}
-	
 }
