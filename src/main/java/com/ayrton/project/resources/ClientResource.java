@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,9 +60,26 @@ public class ClientResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body( "O cliente "+clientSaved.getNome()+" foi cadastrado com sucesso !");            	
 	}
 	//
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Object> update(@PathVariable long id, @RequestBody ClientForm clientForm){
+		Client client = clientForm.toModel();
+		boolean status = service.update(id, client);
+		if(status) {
+			return ResponseEntity.ok("Cliente alterado com sucesso.");
+		}else{
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente nao encontrado!"); 
+		}
+	}
+	//
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id){
-		service.delete(id);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<Object> delete(@PathVariable Long id){
+		int status = service.delete(id);
+		if(status==200) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("O cliente de id: "+id+"foi deletado com sucesso.");
+		}else if(status==404) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado.");
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao deletar cliente.");
+		}
 	}
 }

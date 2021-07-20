@@ -56,7 +56,7 @@ public class OrderService {
 	public Order insert(Order c) {
 		return repository.save(c);
 	}
-	public Object delete(Long id) {
+	public int delete(Long id) {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {

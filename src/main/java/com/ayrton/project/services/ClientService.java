@@ -43,7 +43,17 @@ public class ClientService {
 			return null;
 		}
 	}
-	public Object delete(Long id) {
+	public boolean update(long id,Client clientUpdated) {
+		Optional<Client> oldClient = repository.findById(id);
+		if(oldClient.isEmpty()) {
+			return false;
+		}else {
+			oldClient.get().fone = clientUpdated.getFone();
+			return true;
+		}
+	}
+	
+	public int delete(Long id) {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {

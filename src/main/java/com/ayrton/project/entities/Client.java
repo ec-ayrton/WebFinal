@@ -37,7 +37,7 @@ public class Client implements Serializable{
 	private String CPF;
 	
 	@Column(length = 10)
-	private String fone;
+	public String fone;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
@@ -74,7 +74,6 @@ public class Client implements Serializable{
 	public String getFone() {
 		return fone;
 	}
-
 	public void setFone(String fone) {
 		this.fone = fone;
 	}

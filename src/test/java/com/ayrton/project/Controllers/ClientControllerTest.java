@@ -1,6 +1,7 @@
 package com.ayrton.project.Controllers;
 
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -139,4 +140,43 @@ public class ClientControllerTest {
 		List<Client> list = objectMapper.readValue(resultContent, new TypeReference<List<Client>>(){});
 		assertTrue(list.size()==3);
 	}
+	@Test
+	@DisplayName("DELETAR um Cliente por id.")
+	void deleteClientByIDSucess() throws JsonProcessingException, Exception {
+		
+		//
+		ClientForm clientNovo = new ClientForm("Ana","11111111111", "8899001120");
+		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo))).andExpect(MockMvcResultMatchers.status().isCreated());                                                                                                          
+		
+		Optional<Client> clientSaved = clientRepository.findByCPF(clientNovo.getCPF());
+		
+		assertTrue(clientSaved.isPresent());
+		mockMvc
+				.perform(delete(urlHost+"/clientes/{codigo}", clientSaved.get().getId() ).content(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isNoContent());	
+	}
+	@Test
+	@DisplayName("Atualizar Client by Id (apenas telefone permitido, no momento).")
+	void UpdateClientByIDSucess() throws JsonProcessingException, Exception {
+		
+		//
+		ClientForm clientNovo = new ClientForm("Ana","11111111111", "8899001120");
+		ClientForm clientUpdated = new ClientForm("Ana","11111111111", "8899236689");
+		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo))).andExpect(MockMvcResultMatchers.status().isCreated());                                                                                                          
+		
+		Optional<Client> clientSaved = clientRepository.findByCPF(clientNovo.getCPF());
+		
+		assertTrue(clientSaved.isPresent());
+
+		
+		////
+		mockMvc.perform(MockMvcRequestBuilders.put(urlHost+"/clientes/{codigo}",clientSaved.get().getId()).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientUpdated))).andExpect(MockMvcResultMatchers.status().isOk());                                                                                                          
+
+		////
+		
+//		mockMvc
+//				.perform(put(urlHost+"/clientes/{codigo}", clientSaved.get().getId() ).content(MediaType.APPLICATION_JSON_VALUE))
+//				.andExpect(status().isNoContent());	
+	}
+	
 }
