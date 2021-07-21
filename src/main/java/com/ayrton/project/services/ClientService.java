@@ -48,7 +48,8 @@ public class ClientService {
 		if(oldClient.isEmpty()) {
 			return false;
 		}else {
-			oldClient.get().fone = clientUpdated.getFone();
+			oldClient.get().setFone(clientUpdated.getFone());
+			repository.save(oldClient.get());
 			return true;
 		}
 	}

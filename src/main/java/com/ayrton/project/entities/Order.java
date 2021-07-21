@@ -98,10 +98,7 @@ public class Order implements Serializable{
 		return Objects.equals(client, other.client) && Objects.equals(dataPedido, other.dataPedido);
 	}
 
-	@Override
-	public String toString() {
-		return "Order [id=" + id + ", dataPedido=" + dataPedido + ", client=" + client + ", items=" + items + "]";
-	}
+	
 
 	public OrderResponse toResponse() {
 		// TODO Auto-generated method stub

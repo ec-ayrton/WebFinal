@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.ayrton.project.entities.Client;
@@ -18,7 +19,8 @@ public class ClientForm {
 	@Column(unique = true, length = 11)
 	private String cpf;
 	@NotBlank
-	@Column(length = 10)
+	@Column(length = 11)
+	@Length(min = 10, max=11)
 	private String fone;
 	
 	public ClientForm() {

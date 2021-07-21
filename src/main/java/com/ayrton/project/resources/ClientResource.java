@@ -71,7 +71,7 @@ public class ClientResource {
 	}
 	//
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Object> update(@PathVariable long id, @RequestBody ClientForm clientForm){
+	public ResponseEntity<Object> update(@PathVariable long id, @RequestBody @Valid ClientForm clientForm){
 		Client client = clientForm.toModel();
 		boolean status = service.update(id, client);
 		if(status) {

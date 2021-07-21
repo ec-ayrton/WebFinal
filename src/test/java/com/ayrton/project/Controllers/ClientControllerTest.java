@@ -83,10 +83,7 @@ public class ClientControllerTest {
 		ClientForm clientNovo2 = new ClientForm("Jorge",    "1", "8899001120");
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo2))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
 	
-		
-		
-	}
-	
+	}	
 	
 	
 	

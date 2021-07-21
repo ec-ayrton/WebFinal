@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.ayrton.project.entities.DTO.ClientResponse;
@@ -42,7 +43,8 @@ public class Client implements Serializable{
 	private String CPF;
 	
 	@NotBlank
-	@Column(length = 10)
+	@Column(length = 11)
+	@Length(min=10,max=11)
 	public String fone;
 	
 	@JsonIgnore
