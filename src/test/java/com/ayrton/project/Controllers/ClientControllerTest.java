@@ -107,7 +107,7 @@ public class ClientControllerTest {
 		ClientResponse response = objectMapper.readValue(resultContent, ClientResponse.class);
 		
 		assertTrue(response.getId()==(clientSaved.get().getId()));
-		assertTrue(response.getNome().equalsIgnoreCase(clientSaved.get().getName()));
+		assertTrue(response.getName().equalsIgnoreCase(clientSaved.get().getName()));
 	}
 	@Test
 	@DisplayName("Falha ao obter um Cliente por id.")

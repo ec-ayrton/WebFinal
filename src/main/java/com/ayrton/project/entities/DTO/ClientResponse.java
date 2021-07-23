@@ -10,16 +10,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ClientResponse {
 	private long id;
-	private String nome;
+	private String name;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
-	public ClientResponse(long id, String nome, List<Order> orders2) {
+	public ClientResponse(long id, String name, List<Order> orders2) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 		this.orders=orders2;
 	}
 
@@ -27,11 +27,17 @@ public class ClientResponse {
 		return id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 	public List<Order> getOrders() {
 		return orders;
+	}
+
+	@Override
+	public String toString() {
+		return "ClientResponse [id=" + id + ", nome=" + name + "]";
 	}	
 
+	
 }

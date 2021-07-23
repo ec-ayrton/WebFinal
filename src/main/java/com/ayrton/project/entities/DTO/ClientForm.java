@@ -49,5 +49,10 @@ public class ClientForm {
 		return new Client(this.name,this.cpf,this.fone);
 	}
 
+	@Override
+	public String toString() {
+		return "ClientForm [name=" + name + ", cpf=" + cpf + ", fone=" + fone + "]";
+	}
+
 	
 }

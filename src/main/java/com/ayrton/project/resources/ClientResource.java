@@ -62,12 +62,14 @@ public class ClientResource {
 	@Transactional
 	@PostMapping
 	public ResponseEntity<Object> insert(@RequestBody  @Valid ClientForm clientForm){
+	
 		Client client = clientForm.toModel();
 		ClientResponse clientSaved = service.insert(client);
+		
 		if(clientSaved == null ){
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro ao cadastrar cliente.");
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body( "O cliente "+clientSaved.getNome()+" foi cadastrado com sucesso !");            	
+		return ResponseEntity.status(HttpStatus.CREATED).body( "O cliente foi cadastrado com sucesso !");            	
 	}
 	//
 	@PutMapping(value = "/{id}")
@@ -75,7 +77,7 @@ public class ClientResource {
 		Client client = clientForm.toModel();
 		boolean status = service.update(id, client);
 		if(status) {
-			return ResponseEntity.ok("Cliente alterado com sucesso.");
+			return ResponseEntity.status(HttpStatus.OK).body("Cliente alterado com sucesso.");
 		}else{
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente nao encontrado!"); 
 		}
@@ -85,7 +87,7 @@ public class ClientResource {
 	public ResponseEntity<Object> delete(@PathVariable Long id){
 		int status = service.delete(id);
 		if(status==200) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("O cliente de id: "+id+"foi deletado com sucesso.");
+			return ResponseEntity.status(HttpStatus.OK).body("O cliente de id: "+id+"foi deletado com sucesso.");
 		}else if(status==404) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado.");
 		}else {
