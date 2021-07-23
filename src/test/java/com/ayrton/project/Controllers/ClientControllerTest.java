@@ -83,8 +83,25 @@ public class ClientControllerTest {
 		ClientForm clientNovo2 = new ClientForm("Jorge",    "1", "8899001120");
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo2))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
 	
-	}	
+	}
+	@Test
+	@DisplayName("adicionar um Cliente SEM NOME")
+	void addClientNULLNAMETest() throws JsonProcessingException, Exception {
 	
+		ClientForm clientNovo = new ClientForm("",    "01759767328", "8899001120");
+		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
+	}
+	@Test
+	@DisplayName("adicionar um Cliente FONE INVALIDO")
+	void addClientFoneInvalidest() throws JsonProcessingException, Exception {
+	
+		ClientForm clientNovo = new ClientForm("ana",    "01759767328", "889900112034234234");
+		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
+	
+		ClientForm clientNovo2 = new ClientForm("rogerio",    "51418818305", "88");
+		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo2))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
+	
+	}
 	
 	
 	@Test
@@ -101,13 +118,19 @@ public class ClientControllerTest {
 		MvcResult result = mockMvc
 				.perform(get(urlHost+"/clientes/{codigo}", clientSaved.get().getId() ).content(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andReturn();
-		
-		
 		String resultContent = result.getResponse().getContentAsString();
 		ClientResponse response = objectMapper.readValue(resultContent, ClientResponse.class);
-		
-		assertTrue(response.getId()==(clientSaved.get().getId()));
-		assertTrue(response.getName().equalsIgnoreCase(clientSaved.get().getName()));
+		//OBTIVE A O OBJETO
+		//AGORA VERIFICAR SE É O CORRETO.
+		//BUSCO UM CLIENTE COM TODAS AS INFORMAÇÕES A PARTIR DO ID DO CLIENTE RESPONSE
+		Optional<Client> client = clientRepository.findById(response.getId());
+		assertTrue(client.isPresent());
+		if(client.isPresent()){
+			assertTrue(client.get().getCPF().equals(clientNovo.getCPF()));
+			assertTrue(client.get().getName().equals(clientNovo.getName()));
+			assertTrue(client.get().getFone().equals(clientNovo.getFone()));
+			
+		}	
 	}
 	@Test
 	@DisplayName("Falha ao obter um Cliente por id.")
@@ -144,6 +167,8 @@ public class ClientControllerTest {
 		Client response = objectMapper.readValue(resultContent, Client.class);
 		
 		assertTrue(response.getId()==(clientSaved.get().getId()));
+		assertTrue(response.getName().equals(clientNovo.getName()));
+		assertTrue(response.getFone().equals(clientNovo.getFone()));
 	}
 	@Test
 	@DisplayName("FALHA ao Obter Detalhes  Cliente por id.")
@@ -205,7 +230,11 @@ public class ClientControllerTest {
 		assertTrue(clientSaved.isPresent());
 		mockMvc
 				.perform(delete(urlHost+"/clientes/{codigo}", clientSaved.get().getId() ).content(MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(status().isNoContent());	
+				.andExpect(status().isOk());
+		Optional<Client> clientDeleted = clientRepository.findByCPF(clientNovo.getCPF());
+		assertTrue(clientDeleted.isEmpty());
+		
+		
 	}
 	@Test
 	@DisplayName("Atualizar Client by Id (apenas telefone permitido, no momento).")
@@ -222,6 +251,8 @@ public class ClientControllerTest {
 		////
 		mockMvc.perform(MockMvcRequestBuilders.put(urlHost+"/clientes/{codigo}",clientSaved.get().getId()).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientUpdated))).andExpect(MockMvcResultMatchers.status().isOk());                                                                                                          
 
+		assertTrue(clientSaved.get().fone.equals(clientUpdated.getFone()));
+	
 	}
 	@Test
 	@DisplayName("Falha ao Atualizar ( cliente nao encontrado).")

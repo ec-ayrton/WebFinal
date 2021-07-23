@@ -91,6 +91,9 @@ public class ProductControllerTest {
 		Product response = objectMapper.readValue(resultContent, Product.class);
 		
 		assertTrue(response.getId().equals(produto.get().getId()));
+		assertTrue(response.getName().equals(produto.get().getName()));
+		assertTrue(response.getPrice().equals(produto.get().getPrice()));
+		assertTrue(response.getDescription().equals(produto.get().getDescription()));
 	}
 	@Test
 	@DisplayName("FALHAR ao Obter um produto por id INEXISTENTE.")

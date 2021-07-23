@@ -85,6 +85,10 @@ private final String urlHost = "http://localhost:8080";
 			
 		OrderForm orderForm = new OrderForm(LocalDate.parse("2020-03-30"), "51418818305");
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/pedidos").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(orderForm))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
+	
+		OrderForm orderForm2 = new OrderForm(LocalDate.parse("2020-03-30"), "5141");
+		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/pedidos").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(orderForm2))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
+		
 	}
 	@Test
 	@DisplayName("Obter uma ordem de pedido por id com sucesso.")
@@ -120,6 +124,9 @@ private final String urlHost = "http://localhost:8080";
 		OrderResponse response = objectMapper.readValue(resultContent, OrderResponse.class);
 		
 		assertTrue(response.getId()==(orderFromDb.getId()));
+		assertTrue(response.getItems().equals(orderFromDb.getItems()));
+		assertTrue(response.getDataPedido().equals(orderFromDb.getDataPedido()));
+		assertTrue(response.getTotal().equals(orderFromDb.getTotal()));
 	}
 	@Test
 	@DisplayName("Obter uma ordem de pedido com ID inexistente")
