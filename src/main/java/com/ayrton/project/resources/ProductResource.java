@@ -47,6 +47,6 @@ public class ProductResource {
 		if(produtoSaved == null ){
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro ao cadastrar Produto.");
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body("O produto "+p.getName()+" "+p.getDescription()+" foi cadastrado com sucesso!");	
+		return ResponseEntity.status(HttpStatus.CREATED).body("O produto foi cadastrado com sucesso!");	
 	}
 }

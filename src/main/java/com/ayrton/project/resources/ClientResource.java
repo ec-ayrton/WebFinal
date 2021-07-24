@@ -87,7 +87,7 @@ public class ClientResource {
 	public ResponseEntity<Object> delete(@PathVariable Long id){
 		int status = service.delete(id);
 		if(status==200) {
-			return ResponseEntity.status(HttpStatus.OK).body("O cliente de id: "+id+"foi deletado com sucesso.");
+			return ResponseEntity.status(HttpStatus.OK).body("O cliente foi deletado com sucesso.");
 		}else if(status==404) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado.");
 		}else {
