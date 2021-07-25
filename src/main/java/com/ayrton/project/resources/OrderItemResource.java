@@ -24,6 +24,9 @@ import com.ayrton.project.services.OrderItemService;
 import com.ayrton.project.services.OrderService;
 import com.ayrton.project.services.ProductService;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(value = "/itenspedidos")
 public class OrderItemResource {
@@ -40,11 +43,16 @@ public class OrderItemResource {
 	@Autowired
 	ClientService clientService;
 	
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna a lista de itens de pedidos"), })
 	@GetMapping
 	public ResponseEntity<List<OrderItem>> findAll(){
 		List<OrderItem> list = orderItemService.findAll();
 		return ResponseEntity.ok().body(list);
 	}
+	@ApiResponses(value = {
+		    @ApiResponse(code = 201, message = "Cliente cadastrado com sucesso."),
+		    @ApiResponse(code = 400, message = "Erro ao cadastrar item de pedido."),
+		})
 	@Transactional
 	@PostMapping
 	public ResponseEntity<Object> insert(@RequestBody OrderItemForm itemForm){

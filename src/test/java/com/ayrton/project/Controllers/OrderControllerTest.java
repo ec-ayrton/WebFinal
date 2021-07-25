@@ -84,10 +84,10 @@ private final String urlHost = "http://localhost:8080";
 		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/clientes").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(clientNovo))).andExpect(MockMvcResultMatchers.status().isCreated());                                                                                                          
 			
 		OrderForm orderForm = new OrderForm(LocalDate.parse("2020-03-30"), "51418818305");
-		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/pedidos").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(orderForm))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
+		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/pedidos").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(orderForm))).andExpect(MockMvcResultMatchers.status().isNotFound());                                                                                                          
 	
 		OrderForm orderForm2 = new OrderForm(LocalDate.parse("2020-03-30"), "5141");
-		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/pedidos").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(orderForm2))).andExpect(MockMvcResultMatchers.status().isBadRequest());                                                                                                          
+		mockMvc.perform(MockMvcRequestBuilders.post(urlHost+"/pedidos").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(orderForm2))).andExpect(MockMvcResultMatchers.status().isNotFound());                                                                                                          
 		
 	}
 	@Test

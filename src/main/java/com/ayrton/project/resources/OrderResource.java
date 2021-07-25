@@ -23,6 +23,9 @@ import com.ayrton.project.entities.DTO.OrderResponse;
 import com.ayrton.project.services.ClientService;
 import com.ayrton.project.services.OrderService;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(value = "/pedidos")
 public class OrderResource {
@@ -33,6 +36,9 @@ public class OrderResource {
 	@Autowired
 	private ClientService clientService;
 	
+	@ApiResponses(value = {
+		    @ApiResponse(code = 200, message = "Retorna a lista de ordens de pedidos."),
+		})
 	@GetMapping
 	public ResponseEntity<List<OrderResponse>> findAll(){
 		List<Order> list = service.findAll();
@@ -42,7 +48,10 @@ public class OrderResource {
 		}
 		return ResponseEntity.ok().body(listResponse);
 	}
-	
+	@ApiResponses(value = {
+		    @ApiResponse(code = 200, message = "Retorna a ordem de pedido."),
+		    @ApiResponse(code = 404, message = "Ordem de pedido  nao encontrada!"),
+		})
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Object> findById(@PathVariable Long id){
 		Optional<Order> orderOpt = service.findById(id);
@@ -54,13 +63,18 @@ public class OrderResource {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ordem de pedido  nao encontrada!");
 		}
 	}
+	@ApiResponses(value = {
+		    @ApiResponse(code = 201, message = "Ordem de pedido cadastrada com sucesso."),
+		    @ApiResponse(code = 404, message = "Cliente não encontrado."),
+		    @ApiResponse(code = 409, message = "Erro ao cadastrar Ordem de pedido."),
+		})
 	@Transactional
 	@PostMapping
 	public ResponseEntity<Object> insert(@RequestBody OrderForm orderForm){
 			
 		Optional<Client> clientOpt = clientService.findByCPF(orderForm.getCPF());
 		if(clientOpt.isEmpty()) {
-			return ResponseEntity.badRequest().body("Cliente não encontrado.");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado.");
 		}
 		if(service.ExistsByOrder(orderForm.getDataPedido(), clientOpt.get())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro ao cadastrar Ordem de pedido.");
